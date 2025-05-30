@@ -1,5 +1,6 @@
+import { deletePost } from "@/data/deletePost";
 import { getPostById } from "@/data/getPostById";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/posts/_post-layout/$postId/")({
   component: RouteComponent,
@@ -19,6 +20,18 @@ export const Route = createFileRoute("/posts/_post-layout/$postId/")({
 
 function RouteComponent() {
   const { post, postId } = Route.useLoaderData();
+  const navigate = useNavigate();
+
+  const handleDeletePost = async () => {
+    await deletePost({
+      data: {
+        postId: Number(postId),
+      },
+    });
+    navigate({
+      to: "/posts",
+    });
+  };
 
   return (
     <div className="p-6">
@@ -27,6 +40,12 @@ function RouteComponent() {
       <div className="flex flex-col gap-4 border-2 mt-3 p-4">
         <span>유저 이름: {post.userName}</span>
         <span>내용: {post.content}</span>
+        <button
+          className="w-fit bg-red-400 p-4 text-white"
+          onClick={handleDeletePost}
+        >
+          삭제
+        </button>
       </div>
     </div>
   );
