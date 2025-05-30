@@ -30,6 +30,13 @@ export const Route = createRootRoute({
     ],
   }),
   component: RootComponent,
+  notFoundComponent: () => {
+    return (
+      <div className="text-3xl text-center py-10 text-muted-foreground">
+        요청하신 페이지를 찾을 수 없습니다!
+      </div>
+    );
+  },
 });
 
 function RootComponent() {
